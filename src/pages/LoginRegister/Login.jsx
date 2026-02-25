@@ -4,7 +4,7 @@ import { AuthContext } from '../../context/AuthContext';
 
 const Login = () => {
 
-    const {googleSignIn} = use(AuthContext)
+    const googleSignIn = use(AuthContext)
 
     const handleGoogleSignIn = () => {
         googleSignIn.signInWithGoogle()

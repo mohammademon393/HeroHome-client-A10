@@ -4,8 +4,19 @@ import { NavLink } from "react-router";
 import { AuthContext } from '../../context/AuthContext';
 
 const Navbar = () => {
+  // get user and signOut function
+  const { user, signOutUser } = use(AuthContext);
 
-  const {user} = use(AuthContext)
+  // handle sign out function
+  const handleSignOut = () => {
+    signOutUser()
+      .then(() => {
+        console.log("Sign out successful");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };  
 
     // links route
     const Links = (
@@ -126,24 +137,41 @@ const Navbar = () => {
           <div className="navbar-end">
             {user ? (
               <div className="dropdown dropdown-end">
-                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="btn btn-ghost btn-circle avatar"
+                >
                   <div className="w-10 rounded-full">
                     <img alt="User avatar" src={user.photoURL} />
                   </div>
                 </div>
-                <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                <ul
+                  tabIndex={0}
+                  className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+                >
                   <li>
-                    <Link to="/profile" className="justify-between">
+                    <Link to="/profile">
                       Profile
-                      <span className="badge">New</span>
                     </Link>
                   </li>
-                  <li><Link to="/logout">Logout</Link></li>
+                  <li>
+                    <button onClick={handleSignOut}>Logout</button>
+                  </li>
                 </ul>
               </div>
             ) : (
-              <Link to="/register" className="btn btn-primary btn-outline">Register</Link>,
-              <Link to="/login" className="btn btn-primary">Login</Link>
+              <>
+                <Link
+                  to="/register"
+                  className="btn btn-primary btn-outline mr-2"
+                >
+                  Register
+                </Link>
+                <Link to="/login" className="btn btn-primary">
+                  Login
+                </Link>
+              </>
             )}
           </div>
         </div>

@@ -12,6 +12,10 @@ import Profile from './pages/profile/Profile';
 import Login from './pages/LoginRegister/Login';
 import Register from './pages/LoginRegister/Register';
 import MyServices from './pages/All-Services/MyServices';
+import AuthProvider from './context/AuthProvider';
+
+
+
 
 // Create a router instance
 const router = createBrowserRouter([
@@ -58,14 +62,10 @@ const router = createBrowserRouter([
 // Render the application
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider> 
   </StrictMode>,
 );
 
 
-// Render the application
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-     <RouterProvider router={router} />,
-  </StrictMode>,
-)

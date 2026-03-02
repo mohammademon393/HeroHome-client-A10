@@ -19,7 +19,7 @@ const Login = () => {
 
         // sweet alert success message
         Swal.fire({
-          position: "top-end",
+          position: "top-center",
           icon: "success",
           title: "Login successful!",
           showConfirmButton: false,
@@ -30,7 +30,7 @@ const Login = () => {
         console.log(error.message);
         // sweet alert error message
         Swal.fire({
-          position: "top-end",
+          position: "top-center",
           icon: "error",
           title: "Login failed!",
           text: error.message,
@@ -39,6 +39,7 @@ const Login = () => {
         });
       });
   };
+
 
   return (
     <div className="card my-10 mx-auto bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">

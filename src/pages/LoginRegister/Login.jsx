@@ -43,7 +43,7 @@ const Login = () => {
   return (
     <div className="card my-10 mx-auto bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
       <div className="card-body">
-        <h1 className="text-5xl font-bold">Login now!</h1>
+        <h1 className="text-4xl font-bold">Login now!</h1>
         <fieldset className="fieldset">
           <label className="label">Email</label>
           <input type="email" className="input" placeholder="Email" />

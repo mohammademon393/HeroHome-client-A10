@@ -4,7 +4,8 @@ import { AuthContext } from "../../context/AuthContext";
 import Swal from "sweetalert2";
 
 const Login = () => {
-  const { googleSignIn, signInUser } = use(AuthContext);
+  const  googleSignIn = use(AuthContext);
+  const  signInUser = use(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
 

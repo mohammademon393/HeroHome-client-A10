@@ -153,7 +153,7 @@ const Register = () => {
           </div>
         </form>
 
-        <div className="divider text-xs">OR</div>
+        <div className="divider text-xs">Or</div>
 
         {/* Google Login */}
         <button

@@ -4,7 +4,7 @@ import { AuthContext } from "../../context/AuthContext";
 import Swal from "sweetalert2";
 
 const Login = () => {
-  const googleSignIn = use(AuthContext);
+  const { googleSignIn, signInUser } = use(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -40,21 +40,76 @@ const Login = () => {
       });
   };
 
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    signInUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        navigate(from, { replace: true });
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "Login successful!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+        Swal.fire({
+          position: "top-center",
+          icon: "error",
+          title: "Login failed!",
+          text: "Login failed! Please check your email and password and try again.",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      });
+  };
 
   return (
     <div className="card my-10 mx-auto bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
       <div className="card-body">
         <h1 className="text-4xl font-bold">Login now!</h1>
-        <fieldset className="fieldset">
-          <label className="label">Email</label>
-          <input type="email" className="input" placeholder="Email" />
-          <label className="label">Password</label>
-          <input type="password" className="input" placeholder="Password" />
-          <div>
-            <a className="link link-hover">Forgot password?</a>
+        {/* form start */}
+        <form onSubmit={handleLogin}>
+          <div className="flex flex-col gap-4 mt-4">
+            {" "}
+            {/* all fieldset  */}
+            {/* email fields */}
+            <div className="form-control">
+              <label className="label font-semibold">Email</label>
+              <input
+                name="email"
+                type="email"
+                className="input input-bordered"
+                placeholder="Email"
+                required
+              />
+            </div>
+            {/* password field */}
+            <div className="form-control">
+              <label className="label font-semibold">Password</label>
+              <input
+                name="password"
+                type="password"
+                className="input input-bordered"
+                placeholder="Password"
+                required
+              />
+            </div>
+            <div>
+              <a className="link link-hover">Forgot password?</a>
+            </div>
+            <button type="submit" className="btn btn-neutral mt-4 w-full">
+              Login now
+            </button>
           </div>
-          <button className="btn btn-neutral mt-4">Login</button>
-        </fieldset>
+        </form>
 
         <div className="divider my-[-3px]">Or</div>
 

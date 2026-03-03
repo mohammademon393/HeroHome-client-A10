@@ -14,6 +14,7 @@ import Register from "./pages/LoginRegister/Register";
 import MyServices from "./pages/All-Services/MyServices";
 import AuthProvider from "./context/AuthProvider";
 import PrivetRoute from "./routes/PrivetRoute";
+import ServiceDetails from "./components/homePageReleted/ServiceDetails";
 
 // Create a router instance
 const router = createBrowserRouter([
@@ -28,6 +29,15 @@ const router = createBrowserRouter([
       {
         path: "/services",
         element: <Services />,
+      },
+      {
+        path: "/service/:id",
+        loader: ({ params }) => fetch(`http://localhost:5000/services/${params.id}`), 
+        element: (
+          <PrivetRoute>
+            <ServiceDetails />
+          </PrivetRoute>
+        ),
       },
       {
         path: "/add-service",

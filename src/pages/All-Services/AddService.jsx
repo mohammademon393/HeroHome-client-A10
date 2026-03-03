@@ -139,7 +139,7 @@ const AddService = () => {
                   <option>Electrical Support</option>
                   <option>Plumbing Service</option>
                   <option>Packing & Shifting</option>
-                  <option>Appliance Repair</option>
+                  <option>AC Repair</option>
                 </select>
               </div>
 

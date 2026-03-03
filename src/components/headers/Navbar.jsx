@@ -1,11 +1,11 @@
-import React, { use } from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router';
 import { NavLink } from "react-router";
 import { AuthContext } from '../../context/AuthContext';
 
 const Navbar = () => {
   // get user and signOut function
-  const { user, signOutUser } = use(AuthContext);
+  const { user, signOutUser } = useContext(AuthContext);
 
   // handle sign out function
   const handleSignOut = () => {
@@ -140,44 +140,68 @@ const Navbar = () => {
           <div className="navbar-center hidden lg:flex">
             <ul className="menu menu-horizontal px-1">{Links}</ul>
           </div>
-          <div className="navbar-end">
+          {/* navbar end design */}
+          <div className="navbar-end gap-2">
             {user ? (
               <div className="dropdown dropdown-end">
                 <div
                   tabIndex={0}
                   role="button"
-                  className="btn btn-ghost btn-circle avatar"
+                  className="btn btn-ghost btn-circle avatar border-2 border-rose-100"
                 >
                   <div className="w-10 rounded-full">
-                    <img alt="User avatar" src={user.photoURL} />
+                    {/* যদি photoURL না থাকে তবে একটা ডিফল্ট ইমেজ দেখাবে */}
+                    <img
+                      alt="User"
+                      src={
+                        user?.photoURL ||
+                        "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                      }
+                    />
                   </div>
                 </div>
                 <ul
                   tabIndex={0}
-                  className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+                  className="menu menu-sm dropdown-content mt-3 z-[100] p-2 shadow-2xl bg-base-100 rounded-box w-52 border border-slate-100"
                 >
+                  <div className="px-4 py-2 border-b mb-2">
+                    <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">
+                      Account
+                    </p>
+                    <p className="text-sm font-semibold text-rose-600 truncate">
+                      {user?.displayName}
+                    </p>
+                  </div>
                   <li>
-                    <Link to="/profile">
+                    <Link to="/profile" className="hover:bg-rose-50">
                       Profile
                     </Link>
                   </li>
                   <li>
-                    <button onClick={handleSignOut}>Logout</button>
+                    <button
+                      onClick={handleSignOut}
+                      className="text-red-500 hover:bg-red-50 font-semibold"
+                    >
+                      Logout
+                    </button>
                   </li>
                 </ul>
               </div>
             ) : (
-              <>
+              <div className="flex gap-2">
                 <Link
                   to="/register"
-                  className="btn btn-primary btn-outline mr-2"
+                  className="btn btn-ghost text-rose-500 hover:bg-rose-50"
                 >
                   Register
                 </Link>
-                <Link to="/login" className="btn btn-primary">
+                <Link
+                  to="/login"
+                  className="btn bg-rose-500 hover:bg-rose-600 text-white border-none"
+                >
                   Login
                 </Link>
-              </>
+              </div>
             )}
           </div>
         </div>

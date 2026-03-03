@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router';
 import { NavLink } from "react-router";
 import { AuthContext } from '../../context/AuthContext';
+import { FaCalendarCheck, FaHome, FaPlusCircle, FaServicestack, FaSignInAlt, FaTasks, FaUserCircle, FaUserPlus } from 'react-icons/fa';
 
 const Navbar = () => {
   // get user and signOut function
@@ -30,7 +31,7 @@ const Navbar = () => {
                 : "text-gray-700 hover:underline"
             }
           >
-            Home
+            <FaHome /> Home
           </NavLink>
         </li>
         <li>
@@ -42,63 +43,63 @@ const Navbar = () => {
                 : "text-gray-700 hover:underline"
             }
           >
-            Services
+            <FaServicestack /> Services
           </NavLink>
         </li>
 
         {user && (
           <>
-        <li>
-          <NavLink
-            to="/my-services"
-            className={({ isActive }) =>
-              isActive
-                ? "text-rose-500 font-bold cursor-default"
-                : "text-gray-700 hover:underline"
-            }
-          >
-            My Services
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/add-service"
-            className={({ isActive }) =>
-              isActive
-                ? "text-rose-500 font-bold cursor-default"
-                : "text-gray-700 hover:underline"
-            }
-          >
-            Add Service
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/my-bookings"
-            className={({ isActive }) =>
-              isActive
-                ? "text-rose-500 font-bold cursor-default"
-                : "text-gray-700 hover:underline"
-            }
-          >
-            My Bookings
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/profile"
-            className={({ isActive }) =>
-              isActive
-                ? "text-rose-500 font-bold cursor-default"
-                : "text-gray-700 hover:underline"
-            }
-          >
-            Profile
-          </NavLink>
-        </li>
+            <li>
+              <NavLink
+                to="/add-service"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-rose-500 font-bold cursor-default"
+                    : "text-gray-700 hover:underline"
+                }
+              >
+                <FaPlusCircle /> Add Service
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/my-services"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-rose-500 font-bold cursor-default"
+                    : "text-gray-700 hover:underline"
+                }
+              >
+                <FaTasks /> My Services
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink
+                to="/my-bookings"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-rose-500 font-bold cursor-default"
+                    : "text-gray-700 hover:underline"
+                }
+              >
+                <FaCalendarCheck /> My Bookings
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/profile"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-rose-500 font-bold cursor-default"
+                    : "text-gray-700 hover:underline"
+                }
+              >
+                <FaUserCircle /> Profile
+              </NavLink>
+            </li>
           </>
         )}
-
       </>
     );
 
@@ -150,7 +151,6 @@ const Navbar = () => {
                   className="btn btn-ghost btn-circle avatar border-2 border-rose-100"
                 >
                   <div className="w-10 rounded-full">
-                    {/* যদি photoURL না থাকে তবে একটা ডিফল্ট ইমেজ দেখাবে */}
                     <img
                       alt="User"
                       src={
@@ -191,15 +191,15 @@ const Navbar = () => {
               <div className="flex gap-2">
                 <Link
                   to="/register"
-                  className="btn btn-ghost text-rose-500 hover:bg-rose-50"
+                  className="btn btn-outline hover:bg-rose-500 hover:text-white"
                 >
-                  Register
+                  <FaUserPlus /> Register
                 </Link>
                 <Link
                   to="/login"
                   className="btn bg-rose-500 hover:bg-rose-600 text-white border-none"
                 >
-                  Login
+                  <FaSignInAlt /> Login
                 </Link>
               </div>
             )}

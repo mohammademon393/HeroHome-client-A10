@@ -3,11 +3,13 @@ import { useLoaderData } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaMapMarkerAlt, FaTag, FaUserShield } from "react-icons/fa";
 import { AuthContext } from "../../context/AuthContext";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const ServiceDetails = () => {
-    const user = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const service = useLoaderData();
-  const isOwner = user?.email === service?.providerEmail;
+  const isOwner = user && user.email === service?.providerEmail;
 
   // destructure the service data if needed
   const {
@@ -20,12 +22,56 @@ const ServiceDetails = () => {
     providerImage,
     providerName,
     providerEmail,
-  } = service; 
+  } = service;
 
   // handle booking function
-  const handleBooking =()=>{
-    console.log("Booking confirmed for service:", serviceName);
-  }
+
+  const handleBooking = async (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+    const date = form.date.value;
+    const instruction = form.instruction.value;
+
+    const bookingData = {
+      serviceId: service._id,
+      serviceName: service.serviceName,
+      price: service.price,
+      providerEmail: service.providerEmail,
+      providerName: service.providerName,
+      customerEmail: user?.email,
+      date,
+      instruction,
+      status: "pending",
+      createdAt: new Date(),
+    };
+
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/bookings",
+        bookingData,
+      );
+
+      if (res.data.insertedId) {
+        // sweet alert or toast notification can be added here
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "Your work has been saved",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+        document.getElementById("booking_modal").close();
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.message || "Something went wrong!",
+      });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-4">
@@ -105,7 +151,7 @@ const ServiceDetails = () => {
                       onClick={() =>
                         document.getElementById("booking_modal").showModal()
                       }
-                      className="btn btn-block bg-rose-600"
+                      className="btn btn-block bg-rose-600 text-white"
                     >
                       Book Now
                     </button>
@@ -214,7 +260,7 @@ const ServiceDetails = () => {
                 </label>
                 <input
                   type="email"
-                  value={user?.email}
+                  value={user?.email || ""}
                   readOnly
                   className="input input-bordered bg-slate-50 text-slate-600 focus:outline-none border-slate-200"
                 />

@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router";
 import { FaFacebookF, FaLinkedinIn, FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6"; 
+import logo from "../../assets/heroHome-logo.png";
 
 const Footer = () => {
   const quickLinks = [
@@ -24,6 +25,7 @@ const Footer = () => {
         {/* Brand Section */}
         <div className="space-y-4">
           <h2 className="text-2xl font-bold text-white tracking-tight">
+            <img src={logo} alt="Logo" className="h-8 w-8 text-white. inline-block mr-1" />
             Hero<span className="text-rose-500">Home</span>
           </h2>
           <p className="text-sm leading-relaxed text-slate-400">

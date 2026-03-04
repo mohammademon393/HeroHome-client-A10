@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router';
 import { NavLink } from "react-router";
+import logo from "../../assets/heroHome-logo.png";
 import { AuthContext } from '../../context/AuthContext';
 import { FaCalendarCheck, FaHome, FaPlusCircle, FaServicestack, FaSignInAlt, FaTasks, FaUserCircle, FaUserPlus } from 'react-icons/fa';
 
@@ -136,7 +137,10 @@ const Navbar = () => {
                 {Links}
               </ul>
             </div>
-            <a className="btn btn-ghost text-xl">HeroHome</a>
+            <Link to={"/"} className='text-2xl font-semibold cursor-pointer'>
+              <img src={logo} alt="Logo" className="h-8 w-8 inline-block mr-1" />
+              HeroHome
+            </Link>  
           </div>
           <div className="navbar-center hidden lg:flex">
             <ul className="menu menu-horizontal px-1">{Links}</ul>

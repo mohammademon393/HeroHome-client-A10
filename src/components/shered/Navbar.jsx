@@ -4,6 +4,7 @@ import { NavLink } from "react-router";
 import logo from "../../assets/heroHome-logo.png";
 import { AuthContext } from '../../context/AuthContext';
 import { FaCalendarCheck, FaHome, FaPlusCircle, FaServicestack, FaSignInAlt, FaTasks, FaUserCircle, FaUserPlus } from 'react-icons/fa';
+import { CgLogOut, CgProfile } from 'react-icons/cg';
 
 const Navbar = () => {
   // get user and signOut function
@@ -178,7 +179,7 @@ const Navbar = () => {
                   </div>
                   <li>
                     <Link to="/profile" className="hover:bg-rose-50">
-                      Profile
+                     <CgProfile /> Profile
                     </Link>
                   </li>
                   <li>
@@ -186,7 +187,7 @@ const Navbar = () => {
                       onClick={handleSignOut}
                       className="text-red-500 hover:bg-red-50 font-semibold"
                     >
-                      Logout
+                     <CgLogOut /> Logout
                     </button>
                   </li>
                 </ul>

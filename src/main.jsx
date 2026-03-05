@@ -32,7 +32,10 @@ const router = createBrowserRouter([
       },
       {
         path: "/service/:id",
-        loader: ({ params }) => fetch(`http://localhost:5000/services/${params.id}`), 
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/services/${params.id}`).then((res) =>
+            res.json(),
+          ),
         element: (
           <PrivetRoute>
             <ServiceDetails />

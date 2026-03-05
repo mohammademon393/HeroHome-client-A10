@@ -49,8 +49,7 @@ const PopularServices = () => {
         {/* Grid Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {loading
-            ? 
-              [...Array(6)].map((_, i) => <SkeletonCard key={i} />)
+            ? [...Array(6)].map((_, i) => <SkeletonCard key={i} />)
             : services.map((service) => (
                 <motion.div
                   key={service._id}
@@ -83,7 +82,10 @@ const PopularServices = () => {
                     {/* Provider Info */}
                     <div className="flex items-center gap-3 mt-6 pt-4 border-t border-slate-50">
                       <img
-                        src={service.providerImage}
+                        src={
+                          service.providerImage ||
+                          "https://i.ibb.co/m9Yhx4n/user-avatar.png"
+                        }
                         className="w-10 h-10 rounded-full border-2 border-white shadow-md object-cover"
                         alt={service.providerName}
                       />

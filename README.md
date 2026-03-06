@@ -14,3 +14,52 @@ The React Compiler is not enabled on this template because of its impact on dev 
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+
+
+
+# 🏠 HomeHero – Local Household Service Finder
+
+HomeHero is a MERN stack web application where users can find trusted local household service providers such as electricians, plumbers, and cleaners. Users can browse services, book appointments, and leave reviews while providers can manage their services.
+
+---
+
+## 🚀 Key Features
+
+* 🔐 **Authentication System** (Email/Password + Google Login)
+* 🧑‍🔧 **Service Management (CRUD)** – Add, Update, Delete services
+* 📅 **Booking System** – Users can book and cancel services
+* 📱 **Fully Responsive Design**
+
+---
+
+## 🧰 Technologies Used
+
+**Frontend**
+
+* React
+* React Router
+* React Router-dom
+* JavaScript
+* Tailwind CSS
+* Firebase Authentication
+* Framer Motion
+* react icon, SweetAlert2, lucide react
+  
+
+**Backend**
+
+* Node.js
+* Express.js
+* Cors
+* MongoDB
+
+---
+
+
+## 🚀 Deployment
+
+Client: Netlify 
+Server: Vercel
+
+----------------------------------------------

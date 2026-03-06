@@ -18,6 +18,9 @@ If you are developing a production application, we recommend using TypeScript wi
 
 
 
+
+
+
 # 🏠 HomeHero – Local Household Service Finder
 
 HomeHero is a MERN stack web application where users can find trusted local household service providers such as electricians, plumbers, and cleaners. Users can browse services, book appointments, and leave reviews while providers can manage their services.
@@ -59,7 +62,7 @@ HomeHero is a MERN stack web application where users can find trusted local hous
 
 ## 🚀 Deployment
 
-Client: Netlify 
-Server: Vercel
+* Client: Netlify 
+* Server: Vercel
 
 ----------------------------------------------

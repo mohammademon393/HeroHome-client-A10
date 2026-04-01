@@ -27,7 +27,7 @@ const MyServices = () => {
   const fetchServices = () => {
     if (user?.email) {
       axios
-        .get(`http://localhost:5000/services?email=${user.email}`)
+        .get(`https://homehero-api.vercel.app/services?email=${user.email}`)
         .then((res) => {
           setServices(res.data);
           setLoading(false);
@@ -56,7 +56,10 @@ const MyServices = () => {
     };
 
     axios
-      .put(`http://localhost:5000/services/${selectedService._id}`, updatedInfo)
+      .put(
+        `https://homehero-api.vercel.app/services/${selectedService._id}`,
+        updatedInfo,
+      )
       .then((res) => {
         if (res.data.modifiedCount > 0) {
           Swal.fire(
@@ -79,12 +82,14 @@ const MyServices = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete(`http://localhost:5000/services/${id}`).then((res) => {
-          if (res.data.deletedCount > 0) {
-            Swal.fire("Deleted!", "Service removed.", "success");
-            setServices(services.filter((s) => s._id !== id));
-          }
-        });
+        axios
+          .delete(`https://homehero-api.vercel.app/services/${id}`)
+          .then((res) => {
+            if (res.data.deletedCount > 0) {
+              Swal.fire("Deleted!", "Service removed.", "success");
+              setServices(services.filter((s) => s._id !== id));
+            }
+          });
       }
     });
   };
@@ -129,7 +134,11 @@ const MyServices = () => {
                 className="hover:bg-rose-50/20 transition-all"
               >
                 <td className="py-6 px-10 font-bold text-slate-800 flex items-center gap-4">
-                    <img src={service.image} alt={service.serviceName} className="w-12 h-12 object-cover rounded-lg" />
+                  <img
+                    src={service.image}
+                    alt={service.serviceName}
+                    className="w-12 h-12 object-cover rounded-lg"
+                  />
                   {service.serviceName}
                 </td>
                 <td>

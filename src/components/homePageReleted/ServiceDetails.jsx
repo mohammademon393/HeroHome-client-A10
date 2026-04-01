@@ -49,7 +49,7 @@ const ServiceDetails = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/bookings",
+        "https://homehero-api.vercel.app/bookings",
         bookingData,
       );
 

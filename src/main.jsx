@@ -15,6 +15,7 @@ import MyServices from "./pages/All-Services/MyServices";
 import AuthProvider from "./context/AuthProvider";
 import PrivetRoute from "./routes/PrivetRoute";
 import ServiceDetails from "./components/homePageReleted/ServiceDetails";
+import ErrorPage from "./components/errorPage/ErrorPage";
 
 // Create a router instance
 const router = createBrowserRouter([
@@ -33,8 +34,8 @@ const router = createBrowserRouter([
       {
         path: "/service/:id",
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/services/${params.id}`).then((res) =>
-            res.json(),
+          fetch(`https://homehero-api.vercel.app/services/${params.id}`).then(
+            (res) => res.json(),
           ),
         element: (
           <PrivetRoute>
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register />,
+      },
+      {
+        path: "*",
+        element: <ErrorPage />,
       },
     ],
   },

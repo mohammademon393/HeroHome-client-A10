@@ -113,7 +113,7 @@ const Navbar = () => {
               <div
                 tabIndex={0}
                 role="button"
-                className="btn btn-ghost lg:hidden"
+                className="btn btn-ghost lg:hidden -ml-4"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -138,9 +138,9 @@ const Navbar = () => {
                 {Links}
               </ul>
             </div>
-            <Link to={"/"} className='text-2xl font-semibold cursor-pointer'>
-              <img src={logo} alt="Logo" className="h-8 w-8 inline-block mr-1" />
-              HeroHome
+            <Link to={"/"} className='text-2xl font-semibold flex cursor-pointer'>
+              <img src={logo} alt="Logo" className="h-8 w-8 inline-block mr-1 -ml-3 md:ml-0" />
+              <h3>Home<span className= 'text-rose-500'>Hero</span></h3>
             </Link>  
           </div>
           <div className="navbar-center hidden lg:flex">
@@ -197,7 +197,7 @@ const Navbar = () => {
                 <Link
                   to="/register"
                   className="btn btn-outline hover:bg-rose-500 hover:text-white"
-                >
+               >
                   <FaUserPlus /> Register
                 </Link>
                 <Link

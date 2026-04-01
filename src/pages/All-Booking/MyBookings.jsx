@@ -11,7 +11,7 @@ const MyBookings = () => {
   useEffect(() => {
     if (user?.email) {
       axios
-        .get(`http://localhost:5000/bookings?email=${user.email}`)
+        .get(`https://homehero-api.vercel.app/bookings?email=${user.email}`)
         .then((res) => {
           setBookings(res.data);
         })
@@ -30,13 +30,15 @@ const MyBookings = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete(`http://localhost:5000/bookings/${id}`).then((res) => {
-          if (res.data.deletedCount > 0) {
-            Swal.fire("Deleted!", "Booking has been deleted.", "success");
-            const remaining = bookings.filter((b) => b._id !== id);
-            setBookings(remaining);
-          }
-        });
+        axios
+          .delete(`https://homehero-api.vercel.app/bookings/${id}`)
+          .then((res) => {
+            if (res.data.deletedCount > 0) {
+              Swal.fire("Deleted!", "Booking has been deleted.", "success");
+              const remaining = bookings.filter((b) => b._id !== id);
+              setBookings(remaining);
+            }
+          });
       }
     });
   };

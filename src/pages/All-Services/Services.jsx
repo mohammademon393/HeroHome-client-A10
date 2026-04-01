@@ -1,8 +1,8 @@
 import React, { Suspense } from "react";
 import ServicesCard from "../../components/AllServicesReleted/ServicesCard";
 
-const servicesPromise = fetch("http://localhost:5000/services").then((res) =>
-  res.json(),
+const servicesPromise = fetch("https://homehero-api.vercel.app/services").then(
+  (res) => res.json(),
 );
 
 const Services = () => {

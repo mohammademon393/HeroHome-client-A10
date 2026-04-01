@@ -9,7 +9,7 @@ const PopularServices = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/services")
+      .get("https://homehero-api.vercel.app/services")
       .then((res) => {
         setServices(res.data.slice(0, 6));
         setLoading(false);

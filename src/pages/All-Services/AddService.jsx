@@ -26,7 +26,7 @@ const AddService = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/services",
+        "https://homehero-api.vercel.app/services",
         serviceData,
       );
 

@@ -4,7 +4,7 @@ import { Star } from "lucide-react";
 
 const testimonials = [
   {
-    name: "Sarah Ahmed",
+    name: "Sarah Khan",
     role: "Home Owner",
     review:
       "Absolutely amazing experience! The electrician was professional, punctual, and solved the issue in no time.",

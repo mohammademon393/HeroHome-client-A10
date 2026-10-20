@@ -7,7 +7,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
 const Hero = () => {
@@ -59,25 +59,25 @@ const Hero = () => {
               <div className="absolute inset-0 bg-black/50 flex items-center px-6 md:px-20">
                 <div className="max-w-2xl text-white">
                   {/* Framer Motion for Text Animation */}
-                  <motion.h1
+                  <Motion.h1
                     initial={{ opacity: 0, x: -50 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.8 }}
                     className="text-4xl md:text-6xl font-extrabold leading-tight mb-4"
                   >
                     {slide.title}
-                  </motion.h1>
+                  </Motion.h1>
 
-                  <motion.p
+                  <Motion.p
                     initial={{ opacity: 0, x: -50 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
                     className="text-lg md:text-xl text-slate-200 mb-8"
                   >
                     {slide.description}
-                  </motion.p>
+                  </Motion.p>
 
-                  <motion.div
+                  <Motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5, delay: 0.4 }}
@@ -88,7 +88,7 @@ const Hero = () => {
                     >
                       Explore Services
                     </Link>
-                  </motion.div>
+                  </Motion.div>
                 </div>
               </div>
             </div>

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
 const PopularServices = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     axios
@@ -16,6 +17,7 @@ const PopularServices = () => {
       })
       .catch((err) => {
         console.error(err);
+        setError(true);
         setLoading(false);
       });
   }, []);
@@ -34,24 +36,31 @@ const PopularServices = () => {
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <motion.h2
+          <Motion.h2
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
             className="text-4xl font-extrabold text-slate-900"
           >
             Popular <span className="text-rose-600">Services</span>
-          </motion.h2>
+          </Motion.h2>
           <p className="text-slate-500 mt-3">
             Discover the most booked services by our community
           </p>
         </div>
 
         {/* Grid Section */}
+        {error ? (
+          <p className="py-12 text-center text-rose-700" role="alert">
+            Popular services could not be loaded.
+          </p>
+        ) : !loading && services.length === 0 ? (
+          <p className="py-12 text-center text-slate-500">No services are available yet.</p>
+        ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {loading
             ? [...Array(6)].map((_, i) => <SkeletonCard key={i} />)
             : services.map((service) => (
-                <motion.div
+                <Motion.div
                   key={service._id}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -108,20 +117,21 @@ const PopularServices = () => {
                       </Link>
                     </div>
                   </div>
-                </motion.div>
+                </Motion.div>
               ))}
         </div>
+        )}
 
         {/* Show All Services Button */}
         <div className="text-center mt-16">
           <Link to="/services">
-            <motion.button
+            <Motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="btn btn-wide bg-slate-900 hover:bg-rose-600 text-white border-none h-14 rounded-2xl text-lg font-bold shadow-lg"
             >
               Explore All Services
-            </motion.button>
+            </Motion.button>
           </Link>
         </div>
       </div>

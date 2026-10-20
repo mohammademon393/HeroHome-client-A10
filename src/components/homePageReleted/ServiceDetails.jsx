@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useLoaderData } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import { FaMapMarkerAlt, FaTag, FaUserShield } from "react-icons/fa";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
@@ -96,7 +96,7 @@ const ServiceDetails = () => {
 
             {/* Right Side: Content Section (7 columns) */}
             <div className="lg:col-span-7 p-8 lg:p-12">
-              <motion.div
+              <Motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5 }}
@@ -158,7 +158,7 @@ const ServiceDetails = () => {
                     </button>
                   )}
                 </div>
-              </motion.div>
+              </Motion.div>
             </div>
           </div>
         </div>

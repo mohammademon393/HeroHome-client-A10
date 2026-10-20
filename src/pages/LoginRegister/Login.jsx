@@ -1,14 +1,31 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import Swal from "sweetalert2";
 
 const Login = () => {
-  const { signInWithGoogle, signInUser } = useContext(AuthContext);
+  const { signInWithGoogle, signInUser, resetPassword } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
+  const emailInputRef = useRef(null);
 
   const from = location.state?.from?.pathname || "/";
+
+  const handlePasswordReset = async () => {
+    const email = emailInputRef.current?.value.trim();
+    if (!email) {
+      Swal.fire("Email required", "Enter your email address first.", "info");
+      emailInputRef.current?.focus();
+      return;
+    }
+
+    try {
+      await resetPassword(email);
+      Swal.fire("Check your email", "A password reset link has been sent.", "success");
+    } catch (error) {
+      Swal.fire("Could not send reset link", error.message, "error");
+    }
+  };
 
   const handleGoogleSignIn = () => {
     signInWithGoogle()
@@ -83,6 +100,7 @@ const Login = () => {
             <div className="form-control">
               <label className="label font-semibold">Email</label>
               <input
+                ref={emailInputRef}
                 name="email"
                 type="email"
                 className="input input-bordered"
@@ -102,7 +120,13 @@ const Login = () => {
               />
             </div>
             <div>
-              <a className="link link-hover">Forgot password?</a>
+              <button
+                type="button"
+                onClick={handlePasswordReset}
+                className="link link-hover"
+              >
+                Forgot password?
+              </button>
             </div>
             <button type="submit" className="btn btn-neutral mt-4 w-full">
               Login

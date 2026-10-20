@@ -74,7 +74,7 @@ const Register = () => {
       return;
     }
 createUser(email, password, displayName, photoURL)
-  .then((result) => {
+  .then(() => {
     Swal.fire({
       position: "center",
       icon: "success",
@@ -82,8 +82,7 @@ createUser(email, password, displayName, photoURL)
       showConfirmButton: false,
       timer: 2000,
     });
-    // রেজিস্ট্রেশন শেষে হোম পেজে নিয়ে যাবে
-    navigate("/");
+    navigate(from, { replace: true });
   })
   .catch((error) => {
     console.log(error.code);

@@ -1,39 +1,49 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import {
   FaEdit,
   FaTrashAlt,
   FaPlus,
-  FaExternalLinkAlt,
-  FaBoxes,
   FaTimes,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { serviceCategories } from "../../constants/serviceCategories";
 
 const MyServices = () => {
   const { user } = useContext(AuthContext);
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   // মডাল এবং এডিট ডাটার জন্য স্টেট
   const [selectedService, setSelectedService] = useState(null);
 
-  useEffect(() => {
-    fetchServices();
+  const fetchServices = useCallback(async () => {
+    if (!user?.email) {
+      setServices([]);
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+    try {
+      const response = await axios.get(
+        `https://homehero-api.vercel.app/services?email=${encodeURIComponent(user.email)}`,
+      );
+      setServices(Array.isArray(response.data) ? response.data : []);
+    } catch {
+      setError("Could not load your services. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }, [user?.email]);
 
-  const fetchServices = () => {
-    if (user?.email) {
-      axios
-        .get(`https://homehero-api.vercel.app/services?email=${user.email}`)
-        .then((res) => {
-          setServices(res.data);
-          setLoading(false);
-        });
-    }
-  };
+  useEffect(() => {
+    fetchServices();
+  }, [fetchServices]);
 
   // ১. মডাল ওপেন করার ফাংশন
   const handleEditClick = (service) => {
@@ -42,35 +52,32 @@ const MyServices = () => {
   };
 
   // ২. আপডেট সাবমিট করার ফাংশন
-  const handleUpdate = (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
     const form = e.target;
     const updatedInfo = {
       serviceName: form.serviceName.value,
       category: form.category.value,
-      price: form.price.value,
+      price: parseFloat(form.price.value),
       image: form.image.value,
       description: form.description.value,
       providerName: user?.displayName,
       providerEmail: user?.email,
     };
 
-    axios
-      .put(
+    try {
+      const response = await axios.put(
         `https://homehero-api.vercel.app/services/${selectedService._id}`,
         updatedInfo,
-      )
-      .then((res) => {
-        if (res.data.modifiedCount > 0) {
-          Swal.fire(
-            "Updated!",
-            "Service details updated successfully",
-            "success",
-          );
-          fetchServices(); // ডাটা রিফ্রেশ করা
-          document.getElementById("update_modal").close(); // মডাল বন্ধ করা
-        }
-      });
+      );
+      if (response.data.modifiedCount > 0) {
+        document.getElementById("update_modal").close();
+        await fetchServices();
+        Swal.fire("Updated!", "Service details updated successfully", "success");
+      }
+    } catch {
+      Swal.fire("Update failed", "Could not update this service. Please try again.", "error");
+    }
   };
 
   const handleDelete = (id) => {
@@ -80,16 +87,21 @@ const MyServices = () => {
       showCancelButton: true,
       confirmButtonColor: "#e11d48",
       confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        axios
-          .delete(`https://homehero-api.vercel.app/services/${id}`)
-          .then((res) => {
-            if (res.data.deletedCount > 0) {
-              Swal.fire("Deleted!", "Service removed.", "success");
-              setServices(services.filter((s) => s._id !== id));
-            }
-          });
+        try {
+          const response = await axios.delete(
+            `https://homehero-api.vercel.app/services/${id}`,
+          );
+          if (response.data.deletedCount > 0) {
+            Swal.fire("Deleted!", "Service removed.", "success");
+            setServices((currentServices) =>
+              currentServices.filter((service) => service._id !== id),
+            );
+          }
+        } catch {
+          Swal.fire("Delete failed", "Could not remove this service. Please try again.", "error");
+        }
       }
     });
   };
@@ -100,6 +112,17 @@ const MyServices = () => {
         <span className="loading loading-bars loading-lg text-rose-600"></span>
       </div>
     );
+
+  if (error) {
+    return (
+      <div className="max-w-7xl mx-auto my-16 px-4 text-center" role="alert">
+        <p className="text-rose-700">{error}</p>
+        <button onClick={fetchServices} className="btn mt-4">
+          Try again
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto my-16 px-4">
@@ -116,7 +139,9 @@ const MyServices = () => {
         </Link>
       </div>
 
-      {/* Table */}
+      {services.length === 0 ? (
+        <p className="py-16 text-center text-slate-500">You have not listed any services yet.</p>
+      ) : (
       <div className="bg-white rounded-[40px] shadow-xl overflow-hidden border border-slate-100">
         <table className="table w-full">
           <thead className="bg-slate-50">
@@ -168,6 +193,7 @@ const MyServices = () => {
           </tbody>
         </table>
       </div>
+      )}
 
       {/* --- UPDATE MODAL --- */}
       <dialog id="update_modal" className="modal modal-bottom sm:modal-middle">
@@ -203,6 +229,8 @@ const MyServices = () => {
                 <label className="label font-bold text-slate-700">Price</label>
                 <input
                   type="number"
+                  min="0"
+                  step="0.01"
                   name="price"
                   defaultValue={selectedService.price}
                   className="input input-bordered rounded-xl focus:border-rose-600"
@@ -229,11 +257,11 @@ const MyServices = () => {
                   name="category"
                   defaultValue={selectedService.category}
                   className="select select-bordered rounded-xl"
+                  required
                 >
-                  <option>Home Cleaning</option>
-                  <option>Electrical</option>
-                  <option>Plumbing</option>
-                  <option>Painting</option>
+                  {serviceCategories.map((category) => (
+                    <option key={category}>{category}</option>
+                  ))}
                 </select>
               </div>
               <div className="form-control md:col-span-2">

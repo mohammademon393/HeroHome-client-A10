@@ -8,6 +8,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  sendPasswordResetEmail,
   updateProfile,
 } from "firebase/auth";
 
@@ -17,15 +18,20 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const updateUserProfile = async (displayName, photoURL) => {
+    const currentUser = auth.currentUser;
+    await updateProfile(currentUser, { displayName, photoURL });
+    setUser({ ...currentUser, displayName, photoURL });
+  };
+
+  const resetPassword = (email) => sendPasswordResetEmail(auth, email);
+
   const createUser = (email, password, name, photo) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
         // প্রোফাইল আপডেট করো
-        return updateProfile(result.user, {
-          displayName: name,
-          photoURL: photo,
-        }).then(() => {
+        return updateUserProfile(name, photo).then(() => {
           // আপডেট হওয়ার পর স্টেট ম্যানুয়ালি আপডেট করো জাতে সাথে সাথে নেভবারে দেখা যায়
           setUser({ ...result.user, displayName: name, photoURL: photo });
           setLoading(false);
@@ -39,21 +45,33 @@ const AuthProvider = ({ children }) => {
   };
 
   // Login
-  const signInUser = (email, password) => {
+  const signInUser = async (email, password) => {
     setLoading(true);
-    return signInWithEmailAndPassword(auth, email, password);
+    try {
+      return await signInWithEmailAndPassword(auth, email, password);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Google Login
-  const signInWithGoogle = () => {
+  const signInWithGoogle = async () => {
     setLoading(true);
-    return signInWithPopup(auth, googleProvider);
+    try {
+      return await signInWithPopup(auth, googleProvider);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Logout
-  const signOutUser = () => {
+  const signOutUser = async () => {
     setLoading(true);
-    return signOut(auth);
+    try {
+      return await signOut(auth);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // User state manage
@@ -73,6 +91,8 @@ const AuthProvider = ({ children }) => {
     signInUser,
     signInWithGoogle,
     signOutUser,
+    updateUserProfile,
+    resetPassword,
   };
 
   return (

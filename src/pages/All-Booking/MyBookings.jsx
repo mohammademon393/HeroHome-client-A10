@@ -7,16 +7,39 @@ import { AuthContext } from "../../context/AuthContext";
 const MyBookings = () => {
   const { user } = useContext(AuthContext);
   const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    if (user?.email) {
-      axios
-        .get(`https://homehero-api.vercel.app/bookings?email=${user.email}`)
-        .then((res) => {
-          setBookings(res.data);
-        })
-        .catch((err) => console.error(err));
-    }
+    let isActive = true;
+
+    const fetchBookings = async () => {
+      if (!user?.email) {
+        setBookings([]);
+        setLoading(false);
+        return;
+      }
+
+      setLoading(true);
+      setError("");
+      try {
+        const response = await axios.get(
+          `https://homehero-api.vercel.app/bookings?email=${encodeURIComponent(user.email)}`,
+        );
+        if (isActive) {
+          setBookings(Array.isArray(response.data) ? response.data : []);
+        }
+      } catch {
+        if (isActive) setError("Could not load your bookings. Please try again.");
+      } finally {
+        if (isActive) setLoading(false);
+      }
+    };
+
+    fetchBookings();
+    return () => {
+      isActive = false;
+    };
   }, [user?.email]);
 
   const handleCancel = (id) => {
@@ -28,17 +51,21 @@ const MyBookings = () => {
       confirmButtonColor: "#e11d48", // rose-600
       cancelButtonColor: "#64748b",
       confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        axios
-          .delete(`https://homehero-api.vercel.app/bookings/${id}`)
-          .then((res) => {
-            if (res.data.deletedCount > 0) {
-              Swal.fire("Deleted!", "Booking has been deleted.", "success");
-              const remaining = bookings.filter((b) => b._id !== id);
-              setBookings(remaining);
-            }
-          });
+        try {
+          const response = await axios.delete(
+            `https://homehero-api.vercel.app/bookings/${id}`,
+          );
+          if (response.data.deletedCount > 0) {
+            Swal.fire("Deleted!", "Booking has been deleted.", "success");
+            setBookings((currentBookings) =>
+              currentBookings.filter((booking) => booking._id !== id),
+            );
+          }
+        } catch {
+          Swal.fire("Cancel failed", "Could not cancel this booking. Please try again.", "error");
+        }
       }
     });
   };
@@ -52,7 +79,13 @@ const MyBookings = () => {
         </p>
       </div>
 
-      {bookings.length > 0 ? (
+      {loading ? (
+        <div className="flex justify-center py-20" role="status">
+          <span className="loading loading-bars loading-lg text-rose-600"></span>
+        </div>
+      ) : error ? (
+        <p className="py-20 text-center text-rose-700" role="alert">{error}</p>
+      ) : bookings.length > 0 ? (
         <div className="overflow-x-auto shadow-2xl rounded-3xl border border-slate-100">
           <table className="table w-full">
             {/* Table Head */}

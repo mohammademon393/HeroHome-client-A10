@@ -1,11 +1,10 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { updateProfile } from "firebase/auth";
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import Swal from "sweetalert2";
 
 const Profile = () => {
-  const { user } = useContext(AuthContext);
+  const { user, updateUserProfile } = useContext(AuthContext);
 
   const [name, setName] = useState(user?.displayName || "");
   const [photo, setPhoto] = useState(user?.photoURL || "");
@@ -13,10 +12,7 @@ const Profile = () => {
   const handleUpdateProfile = (e) => {
     e.preventDefault();
 
-    updateProfile(user, {
-      displayName: name,
-      photoURL: photo,
-    })
+    updateUserProfile(name, photo)
       .then(() => {
         Swal.fire({
           icon: "success",
@@ -37,7 +33,7 @@ const Profile = () => {
     <div className="min-h-screen bg-slate-50 py-16 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Profile Card */}
-        <motion.div
+        <Motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-3xl shadow-xl border border-slate-100 p-10"
@@ -100,7 +96,7 @@ const Profile = () => {
               </button>
             </div>
           </form>
-        </motion.div>
+        </Motion.div>
       </div>
     </div>
   );

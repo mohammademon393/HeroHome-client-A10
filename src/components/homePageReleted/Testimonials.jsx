@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import { Star } from "lucide-react";
 
 const testimonials = [
@@ -35,14 +35,14 @@ const Testimonials = () => {
 
       <div className="relative max-w-7xl mx-auto text-center">
         {/* Heading */}
-        <motion.h2
+        <Motion.h2
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="text-5xl md:text-6xl font-black text-white leading-tight"
         >
           Trusted by <span className="text-rose-500">Happy Clients</span>
-        </motion.h2>
+        </Motion.h2>
 
         <p className="text-slate-400 mt-6 text-lg max-w-2xl mx-auto">
           We take pride in delivering premium home services that our customers
@@ -52,7 +52,7 @@ const Testimonials = () => {
         {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20">
           {testimonials.map((item, index) => (
-            <motion.div
+            <Motion.div
               key={index}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -85,7 +85,7 @@ const Testimonials = () => {
                   <p className="text-slate-400 text-sm">{item.role}</p>
                 </div>
               </div>
-            </motion.div>
+            </Motion.div>
           ))}
         </div>
       </div>

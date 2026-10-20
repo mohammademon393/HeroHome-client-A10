@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { serviceCategories } from "../../constants/serviceCategories";
 
 const AddService = () => {
   const { user } = use(AuthContext);
@@ -41,7 +42,7 @@ const AddService = () => {
         form.reset();
         navigate("/my-services"); // অ্যাড করার পর মাই সার্ভিস পেজে নিয়ে যাবে
       }
-    } catch (error) {
+    } catch {
       Swal.fire({
         icon: "error",
         title: "Submission Failed",
@@ -103,6 +104,8 @@ const AddService = () => {
                 <input
                   name="price"
                   type="number"
+                  min="0"
+                  step="0.01"
                   placeholder="Set your price"
                   className="input input-bordered bg-slate-50 border-slate-200 focus:bg-white focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 transition-all duration-300 h-12"
                   required
@@ -131,15 +134,15 @@ const AddService = () => {
                 <select
                   name="category"
                   className="select select-bordered bg-slate-50 border-slate-200 focus:bg-white focus:border-rose-500 transition-all h-12 w-full"
+                  defaultValue=""
+                  required
                 >
-                  <option disabled selected>
+                  <option disabled value="">
                     Select the best category
                   </option>
-                  <option>Home Cleaning</option>
-                  <option>Electrical Support</option>
-                  <option>Plumbing Service</option>
-                  <option>Packing & Shifting</option>
-                  <option>AC Repair</option>
+                  {serviceCategories.map((category) => (
+                    <option key={category}>{category}</option>
+                  ))}
                 </select>
               </div>
 

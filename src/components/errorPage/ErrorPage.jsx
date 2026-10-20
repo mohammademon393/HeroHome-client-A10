@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import { FaHome, FaArrowLeft } from "react-icons/fa";
 
 const ErrorPage = () => {
@@ -12,17 +12,17 @@ const ErrorPage = () => {
 
       <div className="text-center relative z-10">
         {/* 404 Text Animation */}
-        <motion.h1
+        <Motion.h1
           initial={{ scale: 0.5, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5, type: "spring" }}
           className="text-[150px] md:text-[200px] font-black text-slate-900 leading-none tracking-tighter"
         >
           4<span className="text-rose-600">0</span>4
-        </motion.h1>
+        </Motion.h1>
 
         {/* Subtitle with Floating Animation */}
-        <motion.div
+        <Motion.div
           animate={{ y: [0, -10, 0] }}
           transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
         >
@@ -33,10 +33,10 @@ const ErrorPage = () => {
             The page you are looking for might have been removed, had its name
             changed, or is temporarily unavailable.
           </p>
-        </motion.div>
+        </Motion.div>
 
         {/* Action Buttons */}
-        <motion.div
+        <Motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
@@ -57,7 +57,7 @@ const ErrorPage = () => {
           >
             <FaHome className="text-xl" /> Back to Home
           </Link>
-        </motion.div>
+        </Motion.div>
 
         
       </div>

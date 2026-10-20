@@ -1,18 +1,16 @@
-import React, { use, useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { Link, useParams } from "react-router-dom";
-import axios from "axios";
+import React, { useState } from "react";
+import { motion as Motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
-const ServicesCard = ({ servicesPromise }) => {
-  const allServices = use(servicesPromise);
+const ServicesCard = ({ services = [] }) => {
   const [searchText, setSearchText] = useState("");
 
   // filter services
-  const filteredServices = allServices.filter((service) =>
-    service.serviceName.toLowerCase().includes(searchText.toLowerCase()),
+  const filteredServices = services.filter((service) =>
+    service.serviceName?.toLowerCase().includes(searchText.toLowerCase()),
   );
 
-  if (!allServices || allServices.length === 0) {
+  if (services.length === 0) {
     return <p className="text-center text-slate-500">No services found.</p>;
   }
 
@@ -52,7 +50,7 @@ const ServicesCard = ({ servicesPromise }) => {
       {filteredServices.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredServices.map((service) => (
-            <motion.div
+            <Motion.div
               key={service._id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -115,7 +113,7 @@ const ServicesCard = ({ servicesPromise }) => {
                   </Link>
                 </div>
               </div>
-            </motion.div>
+            </Motion.div>
           ))}
         </div>
       ) : (

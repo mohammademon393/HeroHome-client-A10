@@ -1,11 +1,34 @@
-import React, { Suspense } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import ServicesCard from "../../components/AllServicesReleted/ServicesCard";
 
-const servicesPromise = fetch("https://homehero-api.vercel.app/services").then(
-  (res) => res.json(),
-);
-
 const Services = () => {
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    let isActive = true;
+
+    axios
+      .get("https://homehero-api.vercel.app/services")
+      .then((response) => {
+        if (isActive) {
+          setServices(Array.isArray(response.data) ? response.data : []);
+        }
+      })
+      .catch(() => {
+        if (isActive) setError("Could not load services. Please try again later.");
+      })
+      .finally(() => {
+        if (isActive) setLoading(false);
+      });
+
+    return () => {
+      isActive = false;
+    };
+  }, []);
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
       <h1 className="text-4xl font-black text-center mb-10">
@@ -15,15 +38,15 @@ const Services = () => {
         Discover the wide range of services we offer to meet your needs.
       </p>
 
-      <Suspense
-        fallback={
-          <div className="text-center py-20 font-bold">
-            Loading Awesome Services...
-          </div>
-        }
-      >
-        <ServicesCard servicesPromise={servicesPromise} />
-      </Suspense>
+      {loading ? (
+        <div className="text-center py-20 font-bold" role="status">
+          Loading services...
+        </div>
+      ) : error ? (
+        <p className="text-center py-20 text-rose-700" role="alert">{error}</p>
+      ) : (
+        <ServicesCard services={services} />
+      )}
     </div>
   );
 };
